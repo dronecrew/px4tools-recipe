@@ -1,0 +1,76 @@
+{% set version = "0.3.3" %}
+
+package:
+  name: px4tools
+  version: {{ version }}
+
+source:
+  fn: v{{ version }}.tar.gz
+  url: https://github.com/dronecrew/px4tools/archive/v{{ version }}.tar.gz
+#  patches:
+   # List any patch files here
+   # - fix.patch
+
+build:
+  # noarch_python: True
+  # preserve_egg_dir: True
+  entry_points:
+    # Put any entry points (scripts to be generated automatically) here. The
+    # syntax is module:function.  For example
+    #
+    # - px4tools = px4tools:main
+    #
+    # Would create an entry point called px4tools that calls px4tools.main()
+
+    - px42csv=px4tools.px42csv:main
+
+  # If this is a new build for the same version, increment the build
+  # number. If you do not include this key, it defaults to 0.
+  # number: 1
+
+requirements:
+  build:
+    - python
+    - setuptools
+    - scipy
+    - numpy
+    - pandas
+    - matplotlib
+    - basemap
+
+  run:
+    - python
+    - scipy
+    - numpy
+    - pandas
+    - matplotlib
+    - basemap
+
+test:
+  # Python imports
+  imports:
+    - px4tools
+
+  commands:
+    # You can put test commands to be run here.  Use this to test that the
+    # entry points work.
+
+    - px42csv --help
+    - nosetests -sv {{ SRC_DIR }}
+
+  # You can also put a file called run_test.py in the recipe that will be run
+  # at test time.
+
+  requires:
+    - nose
+    # Put any additional test requirements here.  For example
+    # - nose
+
+about:
+  home: https://github.com/dronecrew/px4tools
+  license: GNU General Public License v3 or later (GPLv3+)
+  summary: 'Python log crunching for PX4.'
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml
